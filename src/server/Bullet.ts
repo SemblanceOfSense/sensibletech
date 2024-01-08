@@ -7,7 +7,7 @@ export class Bullet {
     public constructor(pos: Vector3) {
         this.position = pos;
 
-        this.model = ServerStorage.Part.Clone();
+        this.model = ServerStorage.Bullet.Clone();
         this.model.Parent = Workspace;
         this.setPosition(pos);
     }

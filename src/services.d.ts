@@ -4,5 +4,5 @@ interface Workspace extends Model {
 }
 
 interface ServerStorage extends Instance {
-	Part: Part;
+	Bullet: Part;
 }
