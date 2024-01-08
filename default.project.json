@@ -1,5 +1,5 @@
 {
-	"name": "roblox-ts-game",
+	"name": "Napoleonic Training",
 	"globIgnorePaths": [
 		"**/package.json",
 		"**/tsconfig.json"
@@ -8,9 +8,7 @@
 		"$className": "DataModel",
 		"ServerScriptService": {
 			"$className": "ServerScriptService",
-			"TS": {
-				"$path": "out/server"
-			}
+			"$path": "out/server"
 		},
 		"ReplicatedStorage": {
 			"$className": "ReplicatedStorage",
@@ -23,25 +21,19 @@
 					}
 				}
 			},
-			"TS": {
-				"$path": "out/shared"
-			}
+			"$path": "out/shared"
 		},
 		"StarterPlayer": {
 			"$className": "StarterPlayer",
 			"StarterPlayerScripts": {
 				"$className": "StarterPlayerScripts",
-				"TS": {
-					"$path": "out/client"
-				}
+				"$path": "out/client"
 			}
 		},
-		"Workspace": {
-			"$className": "Workspace",
-			"$properties": {
-				"FilteringEnabled": true
-			}
-		},
+        "StarterPack": {
+            "$className": "StarterPack",
+            "$path": "out/pack"
+        },
 		"HttpService": {
 			"$className": "HttpService",
 			"$properties": {
