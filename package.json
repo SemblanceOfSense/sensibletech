@@ -16,6 +16,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "@rbxts/services": "^1.5.1",
     "roblox-ts": "^2.2.0"
   }
 }
