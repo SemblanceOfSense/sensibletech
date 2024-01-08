@@ -31,7 +31,7 @@ export class Bullet {
     }
 
     public getInitialVelocity(): number {
-        return this.initialVelocity;
+        return (this.initialVelocity * 20) / 8;
     }
 
     public getAngle(): Vector3 {
