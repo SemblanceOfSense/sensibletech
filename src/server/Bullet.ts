@@ -31,16 +31,20 @@ export class Bullet {
     }
 
     public getInitialVelocity(): number {
-        return (this.initialVelocity * 20) / 8;
+        return this.convertUnits(this.initialVelocity);
     }
 
     public getAngle(): Vector3 {
         return this.angle;
     }
 
+    public convertUnits(x: number): number {
+        return (x * 20) / 8;
+    }
+
     public formulateYPos(t: number, x: number): number {
         let v: number = (this.getInitialVelocity() * math.sin(math.rad(this.getAngle().Z)));
-        let g: number = (-9.81 * 20) / 8;
+        let g: number = this.convertUnits(-9.81);
         return ((0.5*g*(t**2)) + (v*t) + x);
     }
 
