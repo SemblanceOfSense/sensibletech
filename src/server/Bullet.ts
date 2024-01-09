@@ -38,45 +38,46 @@ export class Bullet {
         return this.angle;
     }
 
-    public formulateYPos(t: number): number {
-        let v: number = (this.getInitialVelocity() * math.sin(this.getAngle().Z));
-        let g: number = -9.81;
-
-        return ((0.5*g*(t^2)) + (v*t));
+    public formulateYPos(t: number, x: number): number {
+        let v: number = (this.getInitialVelocity() * math.sin(math.rad(this.getAngle().Z)));
+        let g: number = (-9.81 * 20) / 8;
+        return ((0.5*g*(t**2)) + (v*t) + x);
     }
 
-    public formulateXPos(t: number): number {
-        let v: number = (this.getInitialVelocity() * math.cos(this.getAngle().Z));
+    public formulateXPos(t: number, x: number): number {
+        let v: number = (this.getInitialVelocity() * math.cos(math.rad(this.getAngle().Z)));
 
-        return (v*t)
+        return (v*t + x)
     }
     public adjustForX(h: number): number {
-        return ((math.cos(this.getAngle().Y) * -1) * h);
+        return (math.cos(math.rad(this.getAngle().Y) * -1) * h);
     }
 
     public adjustForZ(h: number): number {
-        return ((math.sin(this.getAngle().Y * -1) * h));
+        return (math.sin(math.rad(this.getAngle().Y) * -1) * h);
     }
 
-    public moveNCheck(t: number): boolean {
-        let initialPosition: Vector3 = this.getPosition();
+    public moveNCheck(t: number, initialPosition: Vector3): boolean {
         this.setPosition(new Vector3(
-            initialPosition.X + this.adjustForX(this.formulateXPos(t)),
-            initialPosition.Y + this.formulateYPos(t),
-            initialPosition.Z + this.adjustForZ(this.formulateXPos(t))
+            this.adjustForX(this.formulateXPos(t, initialPosition.X)),
+            this.formulateYPos(t, initialPosition.Y),
+            this.adjustForZ(this.formulateXPos(t, initialPosition.Z))
         ));
 
         let foundParts: BasePart[] = Workspace.GetPartsInPart(this.getModel());
         for (let x of foundParts) {
             if (!(x.Parent)) {
                 this.getModel().Destroy();
+                print("hit " + x.Name);
                 return true;
             }
             if (!(x.Parent.FindFirstChildWhichIsA("Humanoid"))) {
                 this.getModel().Destroy();
+                print("hit " + x.Name);
                 return true;
             }
             x.Parent.FindFirstChildWhichIsA("Humanoid")!.Health = 0;
+            print("hit person");
             return true;
         }
         return false;
@@ -86,9 +87,10 @@ export class Bullet {
         let timeElapsed: number = 0;
 
         let collision: boolean = false;
+        let initialPosition: Vector3 = this.getPosition();
         while (!collision) {
             let startTime = os.clock();
-            collision = this.moveNCheck(timeElapsed);
+            collision = this.moveNCheck(timeElapsed, initialPosition);
             RunService.Heartbeat.Wait();
             timeElapsed += os.clock() - startTime;
         }
