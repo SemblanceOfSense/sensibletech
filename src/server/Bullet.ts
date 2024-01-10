@@ -44,8 +44,7 @@ export class Bullet {
 
     public formulateYPos(t: number, x: number): number {
         let v: number = (this.getInitialVelocity() * math.sin(math.rad(this.getAngle().Z)));
-        let g: number = this.convertUnits(-9.81);
-        return ((0.5*g*(t**2)) + (v*t) + x);
+        return ((0.5*this.getDragAdjustedYAcceleration(t)*(t**2)) + (v*t) + x);
     }
 
     public formulateXPos(t: number, x: number): number {
@@ -53,12 +52,25 @@ export class Bullet {
 
         return (v*t + x)
     }
+
     public adjustForX(h: number): number {
         return (math.cos(math.rad(this.getAngle().Y) * -1) * h);
     }
 
     public adjustForZ(h: number): number {
         return (math.sin(math.rad(this.getAngle().Y) * -1) * h);
+    }
+
+    public getDragAdjustedYAcceleration(t: number): number {
+        let initialVelocity: number = this.getInitialVelocity();
+        let mass: number = this.convertUnits(0.02719);
+        let airDensity: number = this.convertUnits(1.293);
+        let dragCoefficent: number = 0.47;
+        let bulletArea: number = this.convertUnits((0.017526 ** 2) * math.pi);
+
+        let dragForce: number = (0.5 * dragCoefficent * airDensity * bulletArea) * ((this.convertUnits(-9.81) * t) + initialVelocity);
+
+        return (((this.convertUnits(-9.81) * mass) - dragForce) / mass);
     }
 
     public moveNCheck(t: number, initialPosition: Vector3): boolean {
