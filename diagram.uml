@@ -1,0 +1,45 @@
+@startuml
+
+top to bottom direction
+
+frame "Bullet (Class)" {
+    [Launch]
+    note right of [Launch]
+        The main function called from this class
+        manages the initial position and runs
+        movencheck every game heartbeat
+    end note
+    [moveNCheck]
+    note left of [moveNCheck]
+        Moves the bullet and then checks
+        collisions. How? Check the physics document!
+    end note
+    [formulateXPosition]
+    [formulateYPosition]
+    [getDragAdjustedXAcceleration]
+    [getDragAdjustedYAcceleration]
+    [adjustForX]
+    [adjustForZ]
+    note left of adjustForZ
+        Adjusts 1d x displacement into
+        the 2d XZ plane
+    end note
+    [convertUnits]
+    note left of [convertUnits]
+        Converts major units by multiplying
+        them by 20 (the meters to studs conversion)
+        and divides by 8 (conversion of a roblox
+        character assuming two meters height).
+        More in the physics document.
+    end note
+    [Launch] --> [moveNCheck]
+    [moveNCheck] --> [adjustforX]
+    [moveNCheck] --> [adjustForZ]
+    [moveNCheck] ---> [formulateYPosition]
+    [adjustforX] --> [formulateXPosition]
+    [adjustForZ] --> [formulateXPosition]
+    [formulateXPosition] --> [getDragAdjustedXAcceleration]
+    [formulateYPosition] --> [getDragAdjustedYAcceleration]
+}
+
+@enduml
