@@ -6,3 +6,15 @@ interface Workspace extends Model {
 interface ServerStorage extends Instance {
 	Bullet: Part;
 }
+
+interface Workspace extends Model {
+	Camera: Camera;
+	Tool: Tool & {
+		Handle: Part & {
+			TouchInterest: TouchTransmitter;
+			WeldConstraint: WeldConstraint;
+		};
+		BulletSpawner: Part;
+	};
+	Baseplate: Part;
+}
