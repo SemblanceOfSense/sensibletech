@@ -9,7 +9,7 @@ export class Bullet {
 
     public constructor(pos: Vector3, iv: number, ang: Vector3, is: boolean) {
         this.isDrag = is;
-        
+
         this.position = pos;
 
         this.initialVelocity = iv;
@@ -50,7 +50,7 @@ export class Bullet {
         if (this.isDrag) {
             return ((0.5*this.getDragAdjustedYAcceleration(t)*(t**2)) + (v*t) + x);
         }
-        return ((0.5*this.convertUnits(-9.81)*(t**2)) + (v*t) + x)
+        return ((0.5*this.convertUnits(-9.81)*(t**2)) + (v*t) + x);
     }
 
     public formulateXPos(t: number, x: number): number {
@@ -59,7 +59,7 @@ export class Bullet {
         if (this.isDrag) {
             return ((0.5 * this.getDragAdjustedXAcceleration(t) * (t**2)) + (v*t) + x)
         }
-        return ((v*t) + x)
+        return ((v*t) + x);
     }
 
     public adjustForX(h: number): number {
@@ -103,6 +103,10 @@ export class Bullet {
 
         let foundParts: BasePart[] = Workspace.GetPartsInPart(this.getModel());
         for (let x of foundParts) {
+            if (x.CanCollide === false) {
+                continue;
+            }
+
             if (!(x.Parent)) {
                 print("hit " + x.Name);
                 return true;

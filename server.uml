@@ -2,9 +2,18 @@
 
 top to bottom direction
 
+frame "Client Events" {
+    [Rifle Effects]
+    [Play Animations]
+}
+
 frame "Bullet (Class)" {
+    note as B
+        Primary purpose of the class: to create,
+        launch, and move a created bullet
+    end note
     [Launch]
-    note right of [Launch]
+    note top of [Launch]
         The main function called from this class
         manages the initial position and runs
         movencheck every game heartbeat
@@ -18,7 +27,6 @@ frame "Bullet (Class)" {
     [formulateYPosition]
     [getDragAdjustedXAcceleration]
     [getDragAdjustedYAcceleration]
-    [adjustForX]
     [adjustForZ]
     note left of adjustForZ
         Adjusts 1d x displacement into
@@ -41,5 +49,44 @@ frame "Bullet (Class)" {
     [formulateXPosition] --> [getDragAdjustedXAcceleration]
     [formulateYPosition] --> [getDragAdjustedYAcceleration]
 }
+
+frame "Init Manager (Server Script)" {
+    note as I
+        Primary purpose of the script: Initiate
+        necesary components and recive input
+        from the client
+    end note
+    [Receive MouseClick]
+    [PlayerSpawn]
+}
+
+frame "Action Manager (Module Script)" {
+    [interpretMouseClick]
+    [giveLoadout]
+}
+
+frame "Rifle (Class)" {
+    [receiveMouseClick]
+    [???]
+
+    [receiveMouseClick] -u-> [???]
+}
+
+frame "Server Events" {
+    [MouseClick]
+    [FKey]
+}
+
+[Rifle Effects] -[hidden]-> [MouseClick]
+[MouseClick] -[hidden]d-> [FKey]
+
+[MouseClick] -l-> [Receive MouseClick]
+[Receive MouseClick] -u-> [interpretMouseClick]
+[PlayerSpawn] -u-> [giveLoadout]
+[interpretMouseClick] -u-> [receiveMouseClick]
+[???] -l-> [Launch]
+[???] -r-> [Rifle Effects]
+[???] -r-> [Play Animations]
+[Rifle Effects] -[hidden]d-> [Play Animations]
 
 @enduml
